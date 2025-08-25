@@ -1,14 +1,24 @@
 # Redirect pages to their correct locations
 /about /pages/about.html 200
+/about.html /pages/about.html 200
 /contact /pages/contact.html 200
+/contact.html /pages/contact.html 200
 /portfolio /pages/portfolio.html 200
+/portfolio.html /pages/portfolio.html 200
 /blog /pages/blog.html 200
+/blog.html /pages/blog.html 200
 /blog-post /pages/blog-post.html 200
+/blog-post.html /pages/blog-post.html 200
 /blog-post2 /pages/blog-post2.html 200
+/blog-post2.html /pages/blog-post2.html 200
 /blog-post3 /pages/blog-post3.html 200
+/blog-post3.html /pages/blog-post3.html 200
 /blog-post4 /pages/blog-post4.html 200
+/blog-post4.html /pages/blog-post4.html 200
 /blog-post5 /pages/blog-post5.html 200
+/blog-post5.html /pages/blog-post5.html 200
 /blog-post6 /pages/blog-post6.html 200
+/blog-post6.html /pages/blog-post6.html 200
 
 # Handle 404s
 /* /pages/404.html 404

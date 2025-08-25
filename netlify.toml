@@ -13,7 +13,17 @@
   status = 200
 
 [[redirects]]
+  from = "/about.html"
+  to = "/pages/about.html"
+  status = 200
+
+[[redirects]]
   from = "/contact"
+  to = "/pages/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact.html"
   to = "/pages/contact.html"
   status = 200
 
@@ -23,6 +33,16 @@
   status = 200
 
 [[redirects]]
+  from = "/portfolio.html"
+  to = "/pages/portfolio.html"
+  status = 200
+
+[[redirects]]
   from = "/blog"
+  to = "/pages/blog.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog.html"
   to = "/pages/blog.html"
   status = 200
