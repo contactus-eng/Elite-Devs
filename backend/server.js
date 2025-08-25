@@ -93,14 +93,8 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Serve frontend files in production
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../')));
-    
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../index.html'));
-    });
-}
+// API-only server - frontend is served separately on Netlify
+// No frontend file serving needed
 
 // Error handling middleware
 app.use(notFound);
