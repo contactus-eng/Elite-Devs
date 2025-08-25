@@ -17,9 +17,16 @@ class API {
 
         const config = { ...defaultOptions, ...options };
 
+        console.log('Making API request to:', url);
+        console.log('Request config:', config);
+
         try {
             const response = await fetch(url, config);
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            
             const data = await response.json();
+            console.log('Response data:', data);
 
             if (!response.ok) {
                 throw new Error(data.error || `HTTP error! status: ${response.status}`);
@@ -81,13 +88,18 @@ async function handleContactFormSubmit(event) {
             message: formData.get('message')
         };
 
+        console.log('Form data being sent:', data);
+        console.log('API URL:', API_BASE_URL + '/contact/submit');
+
         const response = await API.submitContactForm(data);
+        console.log('API response:', response);
         alert('Thank you for your message! We\'ll get back to you within 24 hours.');
         form.reset();
         
     } catch (error) {
         console.error('Contact form submission failed:', error);
-        alert('Failed to submit form. Please try again.');
+        console.error('Error details:', error.message);
+        alert('Failed to submit form. Please try again. Error: ' + error.message);
     } finally {
         submitButton.disabled = false;
         submitButton.textContent = originalText;
