@@ -571,4 +571,50 @@ router.get('/export/newsletter', async (req, res) => {
     }
 });
 
+// Get all contact submissions (for admin)
+router.get('/contacts', async (req, res) => {
+    try {
+        const contacts = await Contact.find()
+            .sort({ submittedAt: -1 }) // Most recent first
+            .limit(50); // Limit to last 50 submissions
+        
+        res.json({
+            success: true,
+            count: contacts.length,
+            data: contacts
+        });
+    } catch (error) {
+        console.error('Error fetching contacts:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch contact submissions'
+        });
+    }
+});
+
+// Get contact submission by ID
+router.get('/contacts/:id', async (req, res) => {
+    try {
+        const contact = await Contact.findById(req.params.id);
+        
+        if (!contact) {
+            return res.status(404).json({
+                success: false,
+                error: 'Contact submission not found'
+            });
+        }
+        
+        res.json({
+            success: true,
+            data: contact
+        });
+    } catch (error) {
+        console.error('Error fetching contact:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch contact submission'
+        });
+    }
+});
+
 module.exports = router;
