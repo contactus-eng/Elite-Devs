@@ -40,7 +40,7 @@ app.use(helmet({
 // CORS configuration
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://elitedevs.work', 'https://www.elitedevs.work', 'https://elitedevs-backend.onrender.com']
+        ? ['https://elitedevs.work', 'https://www.elitedevs.work', 'https://elitedevs-backend.onrender.com', 'https://elite-devs-backend-j435.onrender.com']
         : ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://localhost:3000'],
     credentials: true
 }));
@@ -88,6 +88,22 @@ app.get('/admin-test', (req, res) => {
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV,
         adminUrl: `${req.protocol}://${req.get('host')}/admin`
+    });
+});
+
+// API test route for frontend debugging
+app.get('/api/test', (req, res) => {
+    res.json({
+        success: true,
+        message: 'API is working!',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV,
+        cors: {
+            origin: req.headers.origin,
+            allowed: process.env.NODE_ENV === 'production' 
+                ? ['https://elitedevs.work', 'https://www.elitedevs.work', 'https://elitedevs-backend.onrender.com', 'https://elite-devs-backend-j435.onrender.com']
+                : ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://localhost:3000']
+        }
     });
 });
 

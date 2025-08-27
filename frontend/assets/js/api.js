@@ -39,6 +39,11 @@ class API {
         }
     }
 
+    // Test API connection
+    static async testConnection() {
+        return this.request('/test');
+    }
+
     // Contact Form API
     static async submitContactForm(formData) {
         return this.request('/contact/submit', {
@@ -158,6 +163,22 @@ window.API = API;
 window.handleContactFormSubmit = handleContactFormSubmit;
 window.handleNewsletterSubscription = handleNewsletterSubscription;
 window.initAPI = initAPI;
+
+// Test function for debugging
+window.testAPIConnection = async () => {
+    try {
+        console.log('Testing API connection...');
+        console.log('API Base URL:', API_BASE_URL);
+        const result = await API.testConnection();
+        console.log('API Test Result:', result);
+        alert('API connection successful! Check console for details.');
+        return result;
+    } catch (error) {
+        console.error('API Test Failed:', error);
+        alert('API connection failed: ' + error.message);
+        throw error;
+    }
+};
 
 // Initialize when DOM is loaded
 if (document.readyState === 'loading') {
