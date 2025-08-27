@@ -40,8 +40,8 @@ app.use(helmet({
 // CORS configuration
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://elitedevs.work', 'https://www.elitedevs.work']
-        : ['http://localhost:8000', 'http://127.0.0.1:8000'],
+        ? ['https://elitedevs.work', 'https://www.elitedevs.work', 'https://elitedevs-backend.onrender.com']
+        : ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://localhost:3000'],
     credentials: true
 }));
 
@@ -78,6 +78,17 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Admin page route
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Admin test route
+app.get('/admin-test', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Admin routes are working!',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV,
+        adminUrl: `${req.protocol}://${req.get('host')}/admin`
+    });
 });
 
 // API Routes
