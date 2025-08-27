@@ -462,8 +462,11 @@
                 <div class="section-header">
                     <h2><i class="fas fa-address-book"></i> Client Inquiries</h2>
                     <div class="export-section">
-                        <h4>Export Data</h4>
+                        <h4>Actions</h4>
                         <div class="export-buttons">
+                            <button class="btn btn-primary" onclick="refreshData()">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
                             <button class="btn btn-success" onclick="exportContacts()">
                                 <i class="fas fa-download"></i> Export Contacts
                             </button>
@@ -637,18 +640,25 @@
         // Load contacts
         async function loadContacts() {
             try {
+                console.log('Loading contacts from:', `${API_BASE_URL}/admin/contacts`);
                 const response = await fetch(`${API_BASE_URL}/admin/contacts`);
+                console.log('Response status:', response.status);
+                
                 const data = await response.json();
+                console.log('Contacts data:', data);
                 
                 if (data.success) {
                     currentContacts = data.data;
                     filteredContacts = [...currentContacts];
+                    console.log(`Loaded ${currentContacts.length} contacts`);
                     displayContacts();
+                } else {
+                    throw new Error(data.error || 'Failed to load contacts');
                 }
             } catch (error) {
                 console.error('Error loading contacts:', error);
                 document.getElementById('contactsTableContainer').innerHTML = 
-                    '<div class="loading"><p>Error loading contacts. Please try again.</p></div>';
+                    '<div class="loading"><p>Error loading contacts: ' + error.message + '</p></div>';
             }
         }
 
@@ -704,6 +714,13 @@
             const budgetFilter = document.getElementById('budgetFilter').value;
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
 
+            console.log('Filtering contacts with:', {
+                statusFilter,
+                serviceFilter,
+                budgetFilter,
+                searchTerm
+            });
+
             filteredContacts = currentContacts.filter(contact => {
                 const matchesStatus = !statusFilter || contact.status === statusFilter;
                 const matchesService = !serviceFilter || contact.service === serviceFilter;
@@ -716,6 +733,7 @@
                 return matchesStatus && matchesService && matchesBudget && matchesSearch;
             });
 
+            console.log(`Filtered ${filteredContacts.length} contacts from ${currentContacts.length} total`);
             currentPage = 1;
             displayContacts();
         }
@@ -768,17 +786,24 @@
                     body: JSON.stringify({ status: newStatus })
                 });
                 
-                if (response.ok) {
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
                     // Update local data
                     const contact = currentContacts.find(c => c._id === selectedContactId);
                     if (contact) {
                         contact.status = newStatus;
                         displayContacts();
                     }
+                    
+                    // Show success message
+                    alert('Status updated successfully!');
+                } else {
+                    throw new Error(data.error || 'Failed to update status');
                 }
             } catch (error) {
                 console.error('Error updating status:', error);
-                alert('Error updating status');
+                alert('Error updating status: ' + error.message);
             }
         }
 
@@ -797,16 +822,23 @@
                     body: JSON.stringify({ notes })
                 });
                 
-                if (response.ok) {
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
                     // Update local data
                     const contact = currentContacts.find(c => c._id === selectedContactId);
                     if (contact) {
                         contact.notes = notes;
                     }
+                    
+                    // Show success message
+                    alert('Notes updated successfully!');
+                } else {
+                    throw new Error(data.error || 'Failed to update notes');
                 }
             } catch (error) {
                 console.error('Error updating notes:', error);
-                alert('Error updating notes');
+                alert('Error updating notes: ' + error.message);
             }
         }
 
@@ -835,13 +867,39 @@
             }
         }
 
+        // Refresh data
+        async function refreshData() {
+            try {
+                await loadDashboard();
+                await loadContacts();
+                alert('Data refreshed successfully!');
+            } catch (error) {
+                console.error('Error refreshing data:', error);
+                alert('Error refreshing data: ' + error.message);
+            }
+        }
+
         // Export functions
         function exportContacts() {
-            window.open(`${API_BASE_URL}/admin/export/contacts`, '_blank');
+            try {
+                const url = `${API_BASE_URL}/admin/export/contacts`;
+                console.log('Exporting contacts to:', url);
+                window.open(url, '_blank');
+            } catch (error) {
+                console.error('Error exporting contacts:', error);
+                alert('Error exporting contacts: ' + error.message);
+            }
         }
 
         function exportNewsletter() {
-            window.open(`${API_BASE_URL}/admin/export/newsletter`, '_blank');
+            try {
+                const url = `${API_BASE_URL}/admin/export/newsletter`;
+                console.log('Exporting newsletter to:', url);
+                window.open(url, '_blank');
+            } catch (error) {
+                console.error('Error exporting newsletter:', error);
+                alert('Error exporting newsletter: ' + error.message);
+            }
         }
     </script>
 </body>
