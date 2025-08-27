@@ -75,6 +75,11 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Admin page route
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
 // API Routes
 app.use('/api/contact', contactRoutes);
 app.use('/api/blog', blogRoutes);

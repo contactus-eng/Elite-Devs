@@ -574,13 +574,24 @@ router.get('/export/newsletter', async (req, res) => {
 // Get all contact submissions (for admin)
 router.get('/contacts', async (req, res) => {
     try {
-        const contacts = await Contact.find()
-            .sort({ submittedAt: -1 }) // Most recent first
-            .limit(50); // Limit to last 50 submissions
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 100;
+        const skip = (page - 1) * limit;
+        
+        const [contacts, total] = await Promise.all([
+            Contact.find()
+                .sort({ createdAt: -1 }) // Most recent first
+                .skip(skip)
+                .limit(limit),
+            Contact.countDocuments()
+        ]);
         
         res.json({
             success: true,
             count: contacts.length,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit),
             data: contacts
         });
     } catch (error) {
@@ -613,6 +624,41 @@ router.get('/contacts/:id', async (req, res) => {
         res.status(500).json({
             success: false,
             error: 'Failed to fetch contact submission'
+        });
+    }
+});
+
+// Update contact submission
+router.patch('/contacts/:id', async (req, res) => {
+    try {
+        const { status, notes } = req.body;
+        const updateData = {};
+        
+        if (status) updateData.status = status;
+        if (notes !== undefined) updateData.notes = notes;
+        
+        const contact = await Contact.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            { new: true, runValidators: true }
+        );
+        
+        if (!contact) {
+            return res.status(404).json({
+                success: false,
+                error: 'Contact submission not found'
+            });
+        }
+        
+        res.json({
+            success: true,
+            data: contact
+        });
+    } catch (error) {
+        console.error('Error updating contact:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to update contact submission'
         });
     }
 });

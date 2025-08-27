@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EliteDevs Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card h3 {
+            color: #4a5568;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+
+        .contacts-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .section-header h2 {
+            color: #4a5568;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+        }
+
+        .btn-warning {
+            background: #ed8936;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #dd6b20;
+        }
+
+        .contacts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .contacts-table th,
+        .contacts-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .contacts-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #4a5568;
+            position: sticky;
+            top: 0;
+        }
+
+        .contacts-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .status-new {
+            background: #bee3f8;
+            color: #2b6cb0;
+        }
+
+        .status-contacted {
+            background: #fef5e7;
+            color: #d69e2e;
+        }
+
+        .status-in-progress {
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+
+        .status-completed {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-archived {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .contact-details {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .contact-details h3 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-group {
+            margin-bottom: 20px;
+        }
+
+        .detail-group label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .detail-group .value {
+            color: #2d3748;
+            padding: 8px 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            min-height: 20px;
+        }
+
+        .detail-group textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f7fafc;
+            border-color: #667eea;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .current {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .export-section h4 {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-details {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                max-width: none;
+            }
+            
+            .contacts-table {
+                font-size: 0.9rem;
+            }
+            
+            .contacts-table th,
+            .contacts-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i class="fas fa-chart-line"></i>
+                EliteDevs Admin Dashboard
+            </h1>
+            <p>Manage client inquiries, track analytics, and monitor your business growth</p>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <h3><i class="fas fa-users"></i> Total Contacts</h3>
+                <div class="number" id="totalContacts">-</div>
+                <div class="label">All time submissions</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-clock"></i> Recent Contacts</h3>
+                <div class="number" id="recentContacts">-</div>
+                <div class="label">Last 7 days</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-envelope"></i> New Inquiries</h3>
+                <div class="number" id="newContacts">-</div>
+                <div class="label">Pending review</div>
+            </div>
+            <div class="stat-card">
+                <h3><i class="fas fa-chart-bar"></i> Conversion Rate</h3>
+                <div class="number" id="conversionRate">-</div>
+                <div class="label">In progress + completed</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="contacts-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-address-book"></i> Client Inquiries</h2>
+                    <div class="export-section">
+                        <h4>Export Data</h4>
+                        <div class="export-buttons">
+                            <button class="btn btn-success" onclick="exportContacts()">
+                                <i class="fas fa-download"></i> Export Contacts
+                            </button>
+                            <button class="btn btn-secondary" onclick="exportNewsletter()">
+                                <i class="fas fa-download"></i> Export Newsletter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="statusFilter" onchange="filterContacts()">
+                            <option value="">All Status</option>
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Service</label>
+                        <select id="serviceFilter" onchange="filterContacts()">
+                            <option value="">All Services</option>
+                            <option value="web-development">Web Development</option>
+                            <option value="mobile-development">Mobile Development</option>
+                            <option value="ai-ml">AI & ML</option>
+                            <option value="cloud-solutions">Cloud Solutions</option>
+                            <option value="ui-ux-design">UI/UX Design</option>
+                            <option value="consulting">Consulting</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Budget</label>
+                        <select id="budgetFilter" onchange="filterContacts()">
+                            <option value="">All Budgets</option>
+                            <option value="under-10k">Under $10k</option>
+                            <option value="10k-25k">$10k - $25k</option>
+                            <option value="25k-50k">$25k - $50k</option>
+                            <option value="50k-100k">$50k - $100k</option>
+                            <option value="over-100k">Over $100k</option>
+                            <option value="discuss">Let's Discuss</option>
+                        </select>
+                    </div>
+                    <div class="filter-group search-box">
+                        <label>Search</label>
+                        <input type="text" id="searchInput" placeholder="Search by name, email, or company..." onkeyup="filterContacts()">
+                    </div>
+                </div>
+
+                <div id="contactsTableContainer">
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        <p>Loading contacts...</p>
+                    </div>
+                </div>
+
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button onclick="changePage(-1)" id="prevBtn">Previous</button>
+                    <span id="pageInfo">Page 1 of 1</span>
+                    <button onclick="changePage(1)" id="nextBtn">Next</button>
+                </div>
+            </div>
+
+            <div class="contact-details" id="contactDetails" style="display: none;">
+                <h3><i class="fas fa-user"></i> Contact Details</h3>
+                <div class="detail-group">
+                    <label>Name</label>
+                    <div class="value" id="detailName"></div>
+                </div>
+                <div class="detail-group">
+                    <label>Email</label>
+                    <div class="value" id="detailEmail"></div>
+                </div>
+                <div class="detail-group">
+                    <label>Phone</label>
+                    <div class="value" id="detailPhone"></div>
+                </div>
+                <div class="detail-group">
+                    <label>Company</label>
+                    <div class="value" id="detailCompany"></div>
+                </div>
+                <div class="detail-group">
+                    <label>Service</label>
+                    <div class="value" id="detailService"></div>
+                </div>
+                <div class="detail-group">
+                    <label>Budget</label>
+                    <div class="value" id="detailBudget"></div>
+                </div>
+                <div class="detail-group">
+                    <label>Timeline</label>
+                    <div class="value" id="detailTimeline"></div>
+                </div>
+                <div class="detail-group">
+                    <label>Message</label>
+                    <div class="value" id="detailMessage"></div>
+                </div>
+                <div class="detail-group">
+                    <label>Status</label>
+                    <select id="detailStatus" onchange="updateContactStatus()">
+                        <option value="new">New</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+                <div class="detail-group">
+                    <label>Notes</label>
+                    <textarea id="detailNotes" placeholder="Add notes about this contact..." onblur="updateContactNotes()"></textarea>
+                </div>
+                <div class="detail-group">
+                    <label>Submitted</label>
+                    <div class="value" id="detailSubmitted"></div>
+                </div>
+                <div class="detail-group">
+                    <label>IP Address</label>
+                    <div class="value" id="detailIP"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = window.location.origin + '/api';
+        let currentContacts = [];
+        let filteredContacts = [];
+        let currentPage = 1;
+        let contactsPerPage = 10;
+        let selectedContactId = null;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+            loadContacts();
+        });
+
+        // Load dashboard statistics
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/dashboard`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.data.overview;
+                    document.getElementById('totalContacts').textContent = stats.contacts.total;
+                    document.getElementById('recentContacts').textContent = stats.contacts.recent;
+                    
+                    // Calculate new contacts (status = 'new')
+                    const newContacts = data.data.recentActivity.contacts.filter(c => c.status === 'new').length;
+                    document.getElementById('newContacts').textContent = newContacts;
+                    
+                    // Calculate conversion rate
+                    const total = stats.contacts.total;
+                    const converted = data.data.recentActivity.contacts.filter(c => 
+                        c.status === 'in-progress' || c.status === 'completed'
+                    ).length;
+                    const rate = total > 0 ? Math.round((converted / total) * 100) : 0;
+                    document.getElementById('conversionRate').textContent = rate + '%';
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Load contacts
+        async function loadContacts() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/contacts`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentContacts = data.data;
+                    filteredContacts = [...currentContacts];
+                    displayContacts();
+                }
+            } catch (error) {
+                console.error('Error loading contacts:', error);
+                document.getElementById('contactsTableContainer').innerHTML = 
+                    '<div class="loading"><p>Error loading contacts. Please try again.</p></div>';
+            }
+        }
+
+        // Display contacts in table
+        function displayContacts() {
+            const startIndex = (currentPage - 1) * contactsPerPage;
+            const endIndex = startIndex + contactsPerPage;
+            const pageContacts = filteredContacts.slice(startIndex, endIndex);
+
+            const tableHTML = `
+                <table class="contacts-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Company</th>
+                            <th>Service</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${pageContacts.map(contact => `
+                            <tr onclick="selectContact('${contact._id}')" style="cursor: pointer;">
+                                <td>${contact.name}</td>
+                                <td>${contact.email}</td>
+                                <td>${contact.company || '-'}</td>
+                                <td>${contact.serviceFormatted}</td>
+                                <td>${contact.budgetFormatted}</td>
+                                <td><span class="status-badge status-${contact.status}">${contact.status}</span></td>
+                                <td>${new Date(contact.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="event.stopPropagation(); selectContact('${contact._id}')">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('contactsTableContainer').innerHTML = tableHTML;
+            updatePagination();
+        }
+
+        // Filter contacts
+        function filterContacts() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const serviceFilter = document.getElementById('serviceFilter').value;
+            const budgetFilter = document.getElementById('budgetFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredContacts = currentContacts.filter(contact => {
+                const matchesStatus = !statusFilter || contact.status === statusFilter;
+                const matchesService = !serviceFilter || contact.service === serviceFilter;
+                const matchesBudget = !budgetFilter || contact.budget === budgetFilter;
+                const matchesSearch = !searchTerm || 
+                    contact.name.toLowerCase().includes(searchTerm) ||
+                    contact.email.toLowerCase().includes(searchTerm) ||
+                    (contact.company && contact.company.toLowerCase().includes(searchTerm));
+
+                return matchesStatus && matchesService && matchesBudget && matchesSearch;
+            });
+
+            currentPage = 1;
+            displayContacts();
+        }
+
+        // Select contact for detailed view
+        async function selectContact(contactId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/contacts/${contactId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const contact = data.data;
+                    selectedContactId = contactId;
+                    
+                    // Populate details
+                    document.getElementById('detailName').textContent = contact.name;
+                    document.getElementById('detailEmail').textContent = contact.email;
+                    document.getElementById('detailPhone').textContent = contact.phone || 'Not provided';
+                    document.getElementById('detailCompany').textContent = contact.company || 'Not provided';
+                    document.getElementById('detailService').textContent = contact.serviceFormatted;
+                    document.getElementById('detailBudget').textContent = contact.budgetFormatted;
+                    document.getElementById('detailTimeline').textContent = contact.timelineFormatted;
+                    document.getElementById('detailMessage').textContent = contact.message;
+                    document.getElementById('detailStatus').value = contact.status;
+                    document.getElementById('detailNotes').value = contact.notes || '';
+                    document.getElementById('detailSubmitted').textContent = new Date(contact.createdAt).toLocaleString();
+                    document.getElementById('detailIP').textContent = contact.ipAddress || 'Not available';
+                    
+                    // Show details panel
+                    document.getElementById('contactDetails').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading contact details:', error);
+                alert('Error loading contact details');
+            }
+        }
+
+        // Update contact status
+        async function updateContactStatus() {
+            if (!selectedContactId) return;
+            
+            const newStatus = document.getElementById('detailStatus').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/contacts/${selectedContactId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                
+                if (response.ok) {
+                    // Update local data
+                    const contact = currentContacts.find(c => c._id === selectedContactId);
+                    if (contact) {
+                        contact.status = newStatus;
+                        displayContacts();
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert('Error updating status');
+            }
+        }
+
+        // Update contact notes
+        async function updateContactNotes() {
+            if (!selectedContactId) return;
+            
+            const notes = document.getElementById('detailNotes').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/contacts/${selectedContactId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ notes })
+                });
+                
+                if (response.ok) {
+                    // Update local data
+                    const contact = currentContacts.find(c => c._id === selectedContactId);
+                    if (contact) {
+                        contact.notes = notes;
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating notes:', error);
+                alert('Error updating notes');
+            }
+        }
+
+        // Pagination functions
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredContacts.length / contactsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages > 1) {
+                pagination.style.display = 'flex';
+                document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+                document.getElementById('prevBtn').disabled = currentPage === 1;
+                document.getElementById('nextBtn').disabled = currentPage === totalPages;
+            } else {
+                pagination.style.display = 'none';
+            }
+        }
+
+        function changePage(delta) {
+            const totalPages = Math.ceil(filteredContacts.length / contactsPerPage);
+            const newPage = currentPage + delta;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                displayContacts();
+            }
+        }
+
+        // Export functions
+        function exportContacts() {
+            window.open(`${API_BASE_URL}/admin/export/contacts`, '_blank');
+        }
+
+        function exportNewsletter() {
+            window.open(`${API_BASE_URL}/admin/export/newsletter`, '_blank');
+        }
+    </script>
+</body>
+</html>
