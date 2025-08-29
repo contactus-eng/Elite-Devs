@@ -411,6 +411,16 @@ function initAnimations() {
         return;
     }
     
+    // Special handling for about page
+    if (window.location.pathname.includes('about.html')) {
+        // Add about-page class for specific styling
+        document.body.classList.add('about-page');
+        // Ensure smooth scrolling on about page
+        document.body.style.overflowY = 'auto';
+        document.body.style.overflowX = 'hidden';
+        return;
+    }
+    
     if (document.querySelector('.hero-title')) {
         initHeroAnimations();
     }

@@ -20,6 +20,19 @@ html, body {
     width: 100%;
 }
 
+/* Mobile container adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+}
+
 /* Global fix for all sections - simplified */
 section {
     width: 100%;
@@ -1090,6 +1103,248 @@ body.contact-page {
     overflow-y: auto;
     overflow-x: hidden;
     height: auto;
+}
+
+/* Ensure about page has proper scrolling */
+body.about-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+}
+
+/* Mobile responsive fixes for contact and about pages */
+@media (max-width: 768px) {
+    /* Navbar mobile fixes */
+    .navbar {
+        padding: 0.5rem 0;
+    }
+    
+    .nav-container {
+        padding: 0 1rem;
+    }
+    
+    /* Contact page mobile fixes */
+    .contact-hero {
+        min-height: auto;
+        padding: 1rem 0 2rem 0;
+        margin-top: 60px;
+    }
+    
+    .contact-hero-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1rem;
+    }
+    
+    .contact-hero .hero-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+    
+    .contact-hero .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-features {
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .feature {
+        font-size: 0.8rem;
+    }
+    
+    .contact-illustration {
+        height: 300px;
+        margin-top: 1rem;
+    }
+    
+    .floating-message {
+        position: relative;
+        opacity: 1;
+        transform: none;
+        margin-bottom: 1rem;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+    }
+    
+    .message-bubble {
+        max-width: 100%;
+    }
+    
+    /* About page mobile fixes */
+    .about-hero {
+        min-height: auto;
+        padding: 1rem 0 2rem 0;
+        margin-top: 60px;
+    }
+    
+    .geometric-shapes {
+        display: none;
+    }
+    
+    .about-hero-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1rem;
+    }
+    
+    .about-hero .hero-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+    
+    .about-hero .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .hero-stats .stat-number {
+        font-size: 2rem;
+    }
+    
+    /* Form mobile fixes */
+    .contact-form-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1rem;
+    }
+    
+    .form-info {
+        order: 2;
+    }
+    
+    .contact-form {
+        order: 1;
+    }
+    
+    .form-benefits {
+        gap: 1rem;
+    }
+    
+    .benefit {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    /* Methods grid mobile fixes */
+    .methods-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .method-card {
+        padding: 1.5rem;
+    }
+    
+    /* FAQ mobile fixes */
+    .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .faq-question h3 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Navbar small mobile fixes */
+    .navbar {
+        padding: 0.25rem 0;
+    }
+    
+    .nav-container {
+        padding: 0 0.5rem;
+    }
+    
+    /* Contact page small mobile fixes */
+    .contact-hero {
+        padding: 0.5rem 0 1.5rem 0;
+        margin-top: 50px;
+    }
+    
+    .contact-hero .hero-title {
+        font-size: 2rem;
+    }
+    
+    .contact-hero .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .hero-features {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .contact-illustration {
+        height: 250px;
+    }
+    
+    /* About page small mobile fixes */
+    .about-hero {
+        padding: 0.5rem 0 1.5rem 0;
+        margin-top: 50px;
+    }
+    
+    .about-hero .hero-title {
+        font-size: 2rem;
+    }
+    
+    .about-hero .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .hero-stats .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    /* Form small mobile fixes */
+    .contact-form-content {
+        padding: 0 0.5rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .submit-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    /* Methods small mobile fixes */
+    .method-card {
+        padding: 1rem;
+    }
+    
+    .method-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .method-card p {
+        font-size: 0.9rem;
+    }
 }
 
 .contact-hero .container {
@@ -3147,7 +3402,6 @@ body.contact-page {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden;
     padding: 6rem 0 2rem 0;
     margin-top: 80px;
 }
@@ -3165,6 +3419,7 @@ body.contact-page {
     position: absolute;
     width: 100%;
     height: 100%;
+    pointer-events: none;
 }
 
 .shape {
