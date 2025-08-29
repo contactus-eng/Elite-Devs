@@ -109,50 +109,61 @@ function checkPageLoadStatus() {
     }
     
     // Scroll Animations
-    function initScrollAnimations() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+function initScrollAnimations() {
+if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    // Only run scroll animations on pages that have these sections
+    // Skip on contact page to prevent scrolling issues
+    if (window.location.pathname.includes('contact.html')) {
+        return;
+    }
+
+    // Service cards animation
+const serviceCards = document.querySelectorAll('.service-card');
+const servicesSection = document.querySelector('.services');
+if (serviceCards.length > 0 && servicesSection) {
+    gsap.fromTo('.service-card', 
+        { opacity: 0, y: 100 },
+        { 
+            opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power3.out",
+            scrollTrigger: {
+                trigger: '.services',
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        }
+    );
+}
     
-        // Service cards animation
-    const serviceCards = document.querySelectorAll('.service-card');
-    const servicesSection = document.querySelector('.services');
-    if (serviceCards.length > 0 && servicesSection) {
-        gsap.fromTo('.service-card', 
-            { opacity: 0, y: 100 },
-            { 
-                opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power3.out",
-                scrollTrigger: {
-                    trigger: '.services',
-                    start: "top 80%",
-                    end: "bottom 20%",
-                    toggleActions: "play none none reverse"
-                }
+    // Portfolio items animation
+const portfolioItems = document.querySelectorAll('.portfolio-item');
+const portfolioSection = document.querySelector('.portfolio');
+if (portfolioItems.length > 0 && portfolioSection) {
+    gsap.fromTo('.portfolio-item', 
+        { opacity: 0, scale: 0.8 },
+        { 
+            opacity: 1, scale: 1, duration: 1, stagger: 0.3, ease: "back.out(1.7)",
+            scrollTrigger: {
+                trigger: '.portfolio',
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
             }
-        );
-    }
-        
-        // Portfolio items animation
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    const portfolioSection = document.querySelector('.portfolio');
-    if (portfolioItems.length > 0 && portfolioSection) {
-        gsap.fromTo('.portfolio-item', 
-            { opacity: 0, scale: 0.8 },
-            { 
-                opacity: 1, scale: 1, duration: 1, stagger: 0.3, ease: "back.out(1.7)",
-                scrollTrigger: {
-                    trigger: '.portfolio',
-                    start: "top 80%",
-                    end: "bottom 20%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-    }
-    }
+        }
+    );
+}
+}
     
     // Three.js Background Animation
-    function initThreeJS() {
-        const canvas = document.getElementById('hero-canvas');
-    if (!canvas || typeof THREE === 'undefined') return;
+function initThreeJS() {
+    // Skip Three.js on contact page to prevent scrolling issues
+    if (window.location.pathname.includes('contact.html')) {
+        return;
+    }
+    
+    const canvas = document.getElementById('hero-canvas');
+if (!canvas || typeof THREE === 'undefined') return;
         
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -390,6 +401,16 @@ function initDarkMode() {
 
 // Initialize all animations
 function initAnimations() {
+    // Special handling for contact page
+    if (window.location.pathname.includes('contact.html')) {
+        // Add contact-page class for specific styling
+        document.body.classList.add('contact-page');
+        // Ensure smooth scrolling on contact page
+        document.body.style.overflowY = 'auto';
+        document.body.style.overflowX = 'hidden';
+        return;
+    }
+    
     if (document.querySelector('.hero-title')) {
         initHeroAnimations();
     }

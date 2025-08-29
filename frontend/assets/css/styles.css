@@ -5,41 +5,35 @@
     box-sizing: border-box;
 }
 
-/* Fix for horizontal overflow issues */
+/* Fix for horizontal overflow issues - simplified */
 html, body {
     overflow-x: hidden;
     width: 100%;
     max-width: 100%;
 }
 
-/* Ensure all containers respect viewport */
-.container,
-.hero-content,
-.services-grid,
-.portfolio-grid,
-.testimonials-grid,
-.pricing-grid,
-.blog-grid,
-.contact-form-content,
-.about-hero-content {
-    max-width: 100vw;
-    overflow-x: hidden;
-}
-
-/* Global fix for all sections */
-section {
-    max-width: 100vw;
-    overflow-x: hidden;
+/* Ensure all containers respect viewport - simplified */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
     width: 100%;
 }
 
-/* Fix for all grid layouts */
+/* Global fix for all sections - simplified */
+section {
+    width: 100%;
+    position: relative;
+}
+
+/* Fix for all grid layouts - simplified */
 .grid,
 .grid-2,
 .grid-3,
 .grid-4 {
-    max-width: 100%;
-    overflow-x: hidden;
+    width: 100%;
+    display: grid;
+    gap: 2rem;
 }
 
 
@@ -1087,43 +1081,42 @@ body {
 .contact-hero {
     min-height: 80vh;
     padding: 2rem 0;
-    overflow-x: hidden;
     width: 100%;
+    overflow: visible;
+}
+
+/* Ensure contact page has proper scrolling */
+body.contact-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
 }
 
 .contact-hero .container {
-    max-width: 100%;
+    width: 100%;
     padding: 0 1rem;
-    overflow-x: hidden;
 }
 
 .contact-hero .hero-background {
-    max-width: 100%;
-    overflow-x: hidden;
+    width: 100%;
 }
 
 .contact-hero-content {
-    max-width: 100%;
-    overflow-x: hidden;
+    width: 100%;
     padding: 0 1rem;
 }
 
 .contact-form-section {
-    overflow-x: hidden;
     width: 100%;
 }
 
 .contact-form-content {
-    max-width: 100%;
-    overflow-x: hidden;
-    padding: 0 1rem;
     width: 100%;
+    padding: 0 1rem;
     box-sizing: border-box;
 }
 
 .contact-form-container {
-    max-width: 100%;
-    overflow-x: hidden;
     width: 100%;
     box-sizing: border-box;
 }
@@ -1151,7 +1144,6 @@ body {
 .form-group select,
 .form-group textarea {
     width: 100%;
-    max-width: 100%;
     padding: 1rem;
     border: 2px solid var(--gray-light);
     border-radius: 10px;
@@ -1159,7 +1151,6 @@ body {
     transition: all 0.3s ease;
     background: white;
     box-sizing: border-box;
-    overflow-x: hidden;
     word-wrap: break-word;
     word-break: break-word;
 }
@@ -3610,7 +3601,6 @@ body {
     position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden;
     padding-top: 80px;
     margin-top: 80px;
 }
@@ -3628,6 +3618,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
+    pointer-events: none;
 }
 
 .particle {
