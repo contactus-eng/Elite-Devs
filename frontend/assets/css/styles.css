@@ -2694,6 +2694,10 @@ body.about-page {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .nav-toggle {
+        display: flex !important;
+    }
+    
     .nav-menu {
         position: fixed;
         top: 0;
@@ -2709,6 +2713,7 @@ body.about-page {
         z-index: 999;
         justify-content: flex-start;
         align-items: flex-start;
+        display: flex;
     }
     
     .nav-menu .dark-mode-toggle {

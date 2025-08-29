@@ -296,7 +296,12 @@ if (!canvas || typeof THREE === 'undefined') return;
         const navToggle = document.getElementById('nav-toggle');
         const navMenu = document.getElementById('nav-menu');
     
-    if (!navToggle || !navMenu) return;
+    if (!navToggle || !navMenu) {
+        console.warn('Mobile menu elements not found');
+        return;
+    }
+    
+    console.log('Mobile menu initialized successfully');
         
         navToggle.addEventListener('click', function() {
             navMenu.classList.toggle('active');
@@ -408,6 +413,11 @@ function initAnimations() {
         // Ensure smooth scrolling on contact page
         document.body.style.overflowY = 'auto';
         document.body.style.overflowX = 'hidden';
+        
+        // Initialize essential functions for contact page
+        initMobileMenu();
+        initSmoothScrolling();
+        initDarkMode();
         return;
     }
     
@@ -418,6 +428,11 @@ function initAnimations() {
         // Ensure smooth scrolling on about page
         document.body.style.overflowY = 'auto';
         document.body.style.overflowX = 'hidden';
+        
+        // Initialize essential functions for about page
+        initMobileMenu();
+        initSmoothScrolling();
+        initDarkMode();
         return;
     }
     
