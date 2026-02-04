@@ -46,3 +46,9 @@
   from = "/blog.html"
   to = "/pages/blog.html"
   status = 200
+  
+[[redirects]]
+  from = "/ads.txt"
+  to = "https://srv.adstxtmanager.com/19390/elitedevs.work"
+  status = 301
+  force = true
